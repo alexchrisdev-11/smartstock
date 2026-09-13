@@ -1,16 +1,9 @@
 # Dependencies
 node_modules/
-*/node_modules/
 
-# Environment variables
+# Environment Variables & Secrets
 .env
-.env.local
-*.env
-server/.env
-
-# Build outputs
-dist/
-dist-ssr/
+*.env.local
 
 # Logs
 logs/
@@ -19,7 +12,7 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
-# OS & Editor
+# OS and Editor
 .DS_Store
 Thumbs.db
 .vscode/
