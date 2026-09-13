@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { connectDB } from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       health: '/api/health',
+      auth: '/api/auth',
       products: '/api/products',
     },
   })
@@ -36,6 +38,7 @@ app.get('/api/health', (req, res) => {
 })
 
 // Mount Resource Routes
+app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 
 // 404 Catch-All Middleware for undefined API routes
