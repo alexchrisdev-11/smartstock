@@ -4,6 +4,9 @@ import dotenv from 'dotenv'
 import { connectDB } from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import supplierRoutes from './routes/supplierRoutes.js'
+import stockLogRoutes from './routes/stockLogRoutes.js'
+import dashboardRoutes from './routes/dashboardRoutes.js'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -25,6 +28,9 @@ app.get('/', (req, res) => {
       health: '/api/health',
       auth: '/api/auth',
       products: '/api/products',
+      suppliers: '/api/suppliers',
+      stocklogs: '/api/stocklogs',
+      dashboard: '/api/dashboard',
     },
   })
 })
@@ -40,6 +46,9 @@ app.get('/api/health', (req, res) => {
 // Mount Resource Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
+app.use('/api/suppliers', supplierRoutes)
+app.use('/api/stocklogs', stockLogRoutes)
+app.use('/api/dashboard', dashboardRoutes)
 
 // 404 Catch-All Middleware for undefined API routes
 app.use((req, res) => {

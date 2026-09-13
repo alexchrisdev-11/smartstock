@@ -6,31 +6,31 @@ import {
   updateProduct,
   deleteProduct,
 } from '../controllers/productController.js'
+import { protect, authorize } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
 /**
  * Product Routes Definition
- *
  * Mounted at: /api/products in server.js
  *
- * Endpoints:
- * - GET    /api/products      → Retrieve all inventory items
- * - POST   /api/products      → Create a new product record
- * - GET    /api/products/:sku → Retrieve a single product by unique SKU
- * - PUT    /api/products/:sku → Update product details by SKU
- * - DELETE /api/products/:sku → Remove a product by SKU
+ * Route Protection Policies:
+ * - GET    /api/products      → Public (browsing)
+ * - POST   /api/products      → Protected (requires login)
+ * - GET    /api/products/:sku → Public (browsing)
+ * - PUT    /api/products/:sku → Protected (requires login)
+ * - DELETE /api/products/:sku → Protected & Admin Only (requires role 'admin')
  */
 
 router
   .route('/')
   .get(getProducts)
-  .post(createProduct)
+  .post(protect, createProduct)
 
 router
   .route('/:sku')
   .get(getProductBySku)
-  .put(updateProduct)
-  .delete(deleteProduct)
+  .put(protect, updateProduct)
+  .delete(protect, authorize('admin'), deleteProduct)
 
 export default router

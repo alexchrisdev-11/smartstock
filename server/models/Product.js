@@ -50,11 +50,37 @@ const productSchema = new mongoose.Schema(
       default: 5,
       min: [0, 'Threshold cannot be negative'],
     },
+    supplier: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Supplier',
+      default: null,
+    },
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt fields
   },
 )
+
+/**
+ * Data Integrity & Population Notes:
+ *
+ * 1. Why `supplier` is optional on Product, but `performedBy` is required on StockLog:
+ *    - Domain Modeling: A product can be cataloged or created as an initial concept before a vendor
+ *      contract or supplier relationship is assigned. Forcing `supplier` to be required would block
+ *      users from entering newly designed SKUs into the system.
+ *    - Auditability: In contrast, a StockLog is an immutable audit trail entry representing a physical
+ *      transfer of goods (stock in or stock out). Omitting `performedBy` would create an untraceable
+ *      inventory discrepancy. Knowing *who* authorized or executed the stock change is mandatory
+ *      for operational accountability and theft prevention.
+ *
+ * 2. How `.populate()` replaces an ObjectId with the referenced document:
+ *    - In MongoDB, referencing another document stores a 24-character hexadecimal ObjectId (e.g. "65e2...").
+ *    - Calling `.populate('supplier')` instructs Mongoose to automatically query the `suppliers` collection
+ *      in the background using an efficient `$in` query matching all referenced IDs.
+ *    - It replaces the scalar ObjectId with the full Supplier document `{ _id, name, contactEmail, phone, address }`.
+ *    - This eliminates the "N+1 query problem" on the frontend, avoiding tens of separate HTTP requests
+ *      to fetch each product's supplier individually.
+ */
 
 export const Product = mongoose.model('Product', productSchema)
 export default Product

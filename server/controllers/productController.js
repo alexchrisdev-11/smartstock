@@ -17,7 +17,9 @@ import { Product } from '../models/Product.js'
  */
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).sort({ createdAt: -1 })
+    const products = await Product.find({})
+      .populate('supplier')
+      .sort({ createdAt: -1 })
     res.status(200).json({
       success: true,
       count: products.length,
@@ -36,12 +38,12 @@ export const getProducts = async (req, res) => {
 /**
  * @desc    Fetch single product by SKU
  * @route   GET /api/products/:sku
- * @access  Public (in Week 7)
+ * @access  Public
  */
 export const getProductBySku = async (req, res) => {
   try {
     const sku = (req.params.sku || '').toUpperCase()
-    const product = await Product.findOne({ sku })
+    const product = await Product.findOne({ sku }).populate('supplier')
 
     if (!product) {
       return res.status(404).json({
@@ -71,7 +73,7 @@ export const getProductBySku = async (req, res) => {
  */
 export const createProduct = async (req, res) => {
   try {
-    const { name, sku, category, price, quantity, lowStockThreshold } = req.body
+    const { name, sku, category, price, quantity, lowStockThreshold, supplier } = req.body
 
     // Input Validation: Check for required fields
     if (!name || !sku || !category || price === undefined || quantity === undefined) {
@@ -100,12 +102,15 @@ export const createProduct = async (req, res) => {
       price: Number(price),
       quantity: Number(quantity),
       lowStockThreshold: lowStockThreshold !== undefined ? Number(lowStockThreshold) : 5,
+      supplier: supplier || null,
     })
+
+    const populatedProduct = await Product.findById(newProduct._id).populate('supplier')
 
     res.status(201).json({
       success: true,
       message: 'Product created successfully',
-      data: newProduct,
+      data: populatedProduct,
     })
   } catch (error) {
     console.error(`[Controller Error - createProduct]: ${error.message}`)
@@ -137,7 +142,7 @@ export const createProduct = async (req, res) => {
 /**
  * @desc    Update an existing product by SKU
  * @route   PUT /api/products/:sku
- * @access  Public (in Week 7)
+ * @access  Private (Requires login)
  */
 export const updateProduct = async (req, res) => {
   try {
@@ -153,7 +158,7 @@ export const updateProduct = async (req, res) => {
       { sku },
       updateData,
       { new: true, runValidators: true },
-    )
+    ).populate('supplier')
 
     if (!updatedProduct) {
       return res.status(404).json({
