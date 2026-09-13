@@ -1,40 +1,59 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import ProtectedRoute from './components/ProtectedRoute'
 import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
 import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
 
 /**
- * App Component (Layout Shell & Central Routing Configuration)
+ * App Component (Layout Shell & Route Table with Protected Routes)
  *
- * Why declare all routes in one central place (App.jsx)?
- * 1. Single Source of Truth: Consolidating URL routes in App.jsx gives developers
- *    an immediate, high-level map of every view and URL hierarchy across the application.
- * 2. Maintainability: Centralized route declarations avoid scattered routing logic,
- *    prevent route conflicts, and make adding new paths straightforward.
- * 3. Persistent Global Layout: Components like <Navbar> are declared outside of <Routes>,
- *    ensuring the navigation header remains rendered across all route transitions without unmounting.
+ * Why declare all routes in App.jsx?
+ * - Provides a single source of truth for the application's URL hierarchy.
+ * - Security gates are clear and readable: developers can see at a glance which views
+ *   are public and which are secured behind `<ProtectedRoute>`.
  *
  * Route Table:
- * - "/"              → HomePage (Welcome dashboard & overview)
- * - "/products"      → ProductsPage (Full inventory catalog, state management, search, and stock adjustment)
- * - "/products/:sku" → ProductDetailPage (Dynamic product inspector reading :sku via useParams)
- * - "*"              → NotFoundPage (404 catch-all fallback)
+ * - "/"              → HomePage (Public: Overview and marketing dashboard)
+ * - "/login"         → LoginPage (Public: Authentication form)
+ * - "/products"      → ProtectedRoute → ProductsPage (Private: requires authentication)
+ * - "/products/:sku" → ProtectedRoute → ProductDetailPage (Private: requires authentication)
+ * - "*"              → NotFoundPage (Public: 404 fallback)
  */
 function App() {
   return (
     <div className="app-shell">
-      {/* Persistent Navbar across all routes */}
+      {/* Global persistent navigation bar */}
       <Navbar />
 
-      {/* Main view container where matched route components are mounted */}
       <div className="app-layout">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/:sku" element={<ProductDetailPage />} />
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Protected Routes (Week 6: require user authentication) */}
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <ProductsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/products/:sku"
+            element={
+              <ProtectedRoute>
+                <ProductDetailPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 Catch-all */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>

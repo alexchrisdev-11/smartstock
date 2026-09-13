@@ -1,22 +1,26 @@
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 import './components.css'
 
 /**
  * Navbar Component
  *
- * Provides primary client-side navigation across the application.
- * Rendered once in App.jsx so it persists across all routes.
+ * Persistent navigation bar showing application links and dynamic authentication controls.
  *
- * Link/NavLink vs. Traditional <a> Tag:
- * - A traditional `<a href="...">` triggers a full browser reload, discarding all JavaScript
- *   in-memory state, re-executing scripts, and causing a noticeable page flicker.
- * - `<Link>` and `<NavLink>` from react-router-dom use the HTML5 History API under the hood.
- *   They intercept navigation clicks, update the browser URL without requesting a new HTML page
- *   from the server, and instruct React to re-render only the matched route component.
- * - `<NavLink>` specifically detects if its destination matches the current URL, exposing an
- *   `isActive` flag to apply active CSS classes (e.g., highlighting the current page).
+ * Auth Integration (Week 6):
+ * - Consumes `useAuth()` to check `isAuthenticated` and retrieve current `user`.
+ * - When unauthenticated: displays a "Login" link.
+ * - When authenticated: displays the user's name and role badge, plus an interactive "Logout" button.
  */
 function Navbar() {
+  const { user, isAuthenticated, logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <nav className="smartstock-navbar" aria-label="Main Navigation">
       <div className="navbar-container">
@@ -47,6 +51,36 @@ function Navbar() {
               Products
             </NavLink>
           </li>
+
+          {/* Authentication Navigation Controls */}
+          {isAuthenticated ? (
+            <li className="navbar-user-section">
+              <span className="user-badge">
+                <span className="user-icon" aria-hidden="true">👤</span>
+                <span className="user-name">{user?.name}</span>
+                <span className={`role-pill role-${user?.role}`}>{user?.role}</span>
+              </span>
+              <button
+                type="button"
+                className="logout-btn"
+                onClick={handleLogout}
+                title="Log out of SmartStock"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? 'nav-link active-link login-nav-link' : 'nav-link login-nav-link'
+                }
+              >
+                🔐 Login
+              </NavLink>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

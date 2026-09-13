@@ -103,6 +103,139 @@
 }
 
 /* ==========================================================================
+   LoginPage Styles (Week 6)
+   ========================================================================== */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem 4rem;
+}
+
+.login-card {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.login-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  margin: 0 0 0.5rem 0;
+}
+
+.login-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted, #64748b);
+  margin: 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.login-error {
+  margin-bottom: 1.25rem;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.demo-credentials-box {
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  padding-top: 1.5rem;
+}
+
+.demo-credentials-box h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted, #64748b);
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+}
+
+.demo-accounts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.demo-account-btn {
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: all 0.15s ease;
+}
+
+.demo-account-btn:hover {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+  border-style: solid;
+}
+
+.demo-account-btn strong {
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+
+.demo-account-btn span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.775rem;
+  color: #2563eb;
+}
+
+.demo-account-btn small {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* ==========================================================================
    ProductDetailPage Styles
    ========================================================================== */
 .detail-top-nav {
@@ -270,6 +403,10 @@
 @media (max-width: 640px) {
   .home-hero-card {
     padding: 2rem 1.25rem;
+  }
+
+  .login-card {
+    padding: 1.75rem 1.25rem;
   }
 
   .product-detail-card {
