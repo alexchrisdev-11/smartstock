@@ -1,8 +1,14 @@
-.app-layout {
+.app-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 2.5rem 1.5rem 4rem;
+}
+
+.app-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem 4rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -14,6 +20,6 @@
 
 @media (max-width: 640px) {
   .app-layout {
-    padding: 1.5rem 1rem 3rem;
+    padding: 1.25rem 1rem 3rem;
   }
 }
