@@ -17,6 +17,7 @@ import './components.css'
  *   but the destructive delete button is hidden from view.
  */
 function ProductCard({
+  _id,
   name,
   sku,
   category,
@@ -25,6 +26,7 @@ function ProductCard({
   lowStockThreshold = 10,
   onAdjustStock,
   onDelete,
+  isMutating = false,
 }) {
   const { user } = useAuth()
 
@@ -32,7 +34,7 @@ function ProductCard({
   const status = quantity <= lowStockThreshold ? 'low-stock' : 'in-stock'
 
   return (
-    <article className="product-card">
+    <article className={`product-card ${isMutating ? 'card-mutating' : ''}`}>
       <div className="product-card-header">
         <span className="product-category">{category}</span>
         <Badge status={status} />
@@ -55,18 +57,19 @@ function ProductCard({
             <button
               type="button"
               className="qty-btn"
-              onClick={() => onAdjustStock(sku, -1)}
-              disabled={quantity === 0}
+              onClick={() => onAdjustStock({ _id, sku, quantity }, 'out', 1)}
+              disabled={quantity === 0 || isMutating}
               title={quantity === 0 ? 'Cannot decrease below 0' : 'Decrease stock by 1'}
               aria-label={`Decrease quantity of ${name}`}
             >
               −
             </button>
-            <span className="stock-value">{quantity}</span>
+            <span className="stock-value">{isMutating ? '...' : quantity}</span>
             <button
               type="button"
               className="qty-btn"
-              onClick={() => onAdjustStock(sku, 1)}
+              onClick={() => onAdjustStock({ _id, sku, quantity }, 'in', 1)}
+              disabled={isMutating}
               title="Increase stock by 1"
               aria-label={`Increase quantity of ${name}`}
             >
@@ -80,7 +83,7 @@ function ProductCard({
         <Link
           to={`/products/${sku}`}
           state={{
-            product: { name, sku, category, price, quantity, lowStockThreshold },
+            product: { _id, name, sku, category, price, quantity, lowStockThreshold },
           }}
           className="view-details-link"
         >
@@ -93,10 +96,11 @@ function ProductCard({
             type="button"
             className="delete-btn"
             onClick={() => onDelete(sku)}
+            disabled={isMutating}
             title={`Delete ${name} from inventory (Admin access)`}
             aria-label={`Delete ${name}`}
           >
-            🗑️ Delete
+            {isMutating ? 'Deleting...' : '🗑️ Delete'}
           </button>
         )}
       </div>
@@ -105,6 +109,7 @@ function ProductCard({
 }
 
 ProductCard.propTypes = {
+  _id: PropTypes.string,
   name: PropTypes.string.isRequired,
   sku: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
@@ -113,6 +118,7 @@ ProductCard.propTypes = {
   lowStockThreshold: PropTypes.number,
   onAdjustStock: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  isMutating: PropTypes.bool,
 }
 
 export default ProductCard

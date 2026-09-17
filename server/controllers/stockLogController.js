@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { StockLog } from '../models/StockLog.js'
 import { Product } from '../models/Product.js'
 
@@ -21,6 +22,13 @@ export const createStockLog = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Please provide required fields: product (ID), type ("in" | "out"), and quantity.',
+      })
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Product ID format.',
       })
     }
 
@@ -53,7 +61,6 @@ export const createStockLog = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: `Insufficient stock: Cannot decrease by ${numQuantity}. Current stock is ${product.quantity}.`,
-        currentStock: product.quantity,
       })
     }
 
@@ -90,16 +97,9 @@ export const createStockLog = async (req, res) => {
     })
   } catch (error) {
     console.error(`[Controller Error - createStockLog]: ${error.message}`)
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({
-        success: false,
-        message: 'Invalid Product ID format.',
-      })
-    }
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to record stock log.',
-      error: error.message,
     })
   }
 }
@@ -113,6 +113,21 @@ export const getStockLogsByProduct = async (req, res) => {
   try {
     const { productId } = req.params
 
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Product ID format.',
+      })
+    }
+
+    const product = await Product.findById(productId)
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: `Product with ID "${productId}" not found.`,
+      })
+    }
+
     const logs = await StockLog.find({ product: productId })
       .sort({ createdAt: -1 })
       .populate('performedBy', 'name email role')
@@ -125,16 +140,9 @@ export const getStockLogsByProduct = async (req, res) => {
     })
   } catch (error) {
     console.error(`[Controller Error - getStockLogsByProduct]: ${error.message}`)
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({
-        success: false,
-        message: 'Invalid Product ID format.',
-      })
-    }
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve stock logs.',
-      error: error.message,
     })
   }
 }

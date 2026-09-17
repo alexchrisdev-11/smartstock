@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
+import SuppliersPage from './pages/SuppliersPage'
 import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
 
@@ -17,10 +18,11 @@ import './App.css'
  *   are public and which are secured behind `<ProtectedRoute>`.
  *
  * Route Table:
- * - "/"              → HomePage (Public: Overview and marketing dashboard)
+ * - "/"              → HomePage (Public / Authenticated Dashboard)
  * - "/login"         → LoginPage (Public: Authentication form)
  * - "/products"      → ProtectedRoute → ProductsPage (Private: requires authentication)
  * - "/products/:sku" → ProtectedRoute → ProductDetailPage (Private: requires authentication)
+ * - "/suppliers"     → ProtectedRoute → SuppliersPage (Private: requires authentication)
  * - "*"              → NotFoundPage (Public: 404 fallback)
  */
 function App() {
@@ -35,7 +37,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Protected Routes (Week 6: require user authentication) */}
+          {/* Protected Routes (require user authentication) */}
           <Route
             path="/products"
             element={
@@ -49,6 +51,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProductDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/suppliers"
+            element={
+              <ProtectedRoute>
+                <SuppliersPage />
               </ProtectedRoute>
             }
           />

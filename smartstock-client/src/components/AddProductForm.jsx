@@ -28,9 +28,11 @@ function AddProductForm({ onAddProduct }) {
   const [quantity, setQuantity] = useState('')
   const [lowStockThreshold, setLowStockThreshold] = useState('10')
   const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
 
     // Validation: ensure required fields are not empty
     if (!name.trim() || !sku.trim() || !category.trim() || price === '' || quantity === '') {
@@ -43,7 +45,7 @@ function AddProductForm({ onAddProduct }) {
     const parsedThreshold = lowStockThreshold !== '' ? parseInt(lowStockThreshold, 10) : 10
 
     if (isNaN(parsedPrice) || parsedPrice < 0) {
-      setError('Price must be a valid positive number.')
+      setError('Price must be a valid non-negative number.')
       return
     }
 
@@ -59,20 +61,27 @@ function AddProductForm({ onAddProduct }) {
       category: category.trim(),
       price: parsedPrice,
       quantity: parsedQuantity,
-      lowStockThreshold: isNaN(parsedThreshold) ? 10 : parsedThreshold,
+      lowStockThreshold: isNaN(parsedThreshold) ? 5 : parsedThreshold,
     }
 
-    // Call parent handler to update state immutably in App.jsx
-    onAddProduct(newProduct)
+    setIsSubmitting(true)
+    try {
+      // Call parent handler to create product via real API
+      await onAddProduct(newProduct)
 
-    // Clear form fields and error message after successful submission
-    setName('')
-    setSku('')
-    setCategory('')
-    setPrice('')
-    setQuantity('')
-    setLowStockThreshold('10')
-    setError('')
+      // Clear form fields after successful submission
+      setName('')
+      setSku('')
+      setCategory('')
+      setPrice('')
+      setQuantity('')
+      setLowStockThreshold('10')
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Failed to create product.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -161,8 +170,8 @@ function AddProductForm({ onAddProduct }) {
           </div>
         </div>
 
-        <button type="submit" className="add-product-btn">
-          + Add to Inventory
+        <button type="submit" className="add-product-btn" disabled={isSubmitting}>
+          {isSubmitting ? 'Adding Product...' : '+ Add to Inventory'}
         </button>
       </form>
     </section>

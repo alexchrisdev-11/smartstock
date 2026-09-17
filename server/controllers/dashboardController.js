@@ -57,7 +57,6 @@ export const getDashboardSummary = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve dashboard metrics.',
-      error: error.message,
     })
   }
 }

@@ -58,6 +58,21 @@ app.use((req, res) => {
   })
 })
 
+// Global Error Handling Middleware (Catches JSON parsing errors, syntax errors, and uncaught exceptions)
+app.use((err, req, res, next) => {
+  console.error(`[Global Error Handler]: ${err.message}`)
+  if (err.type === 'entity.parse.failed' || err instanceof SyntaxError) {
+    return res.status(400).json({
+      success: false,
+      message: 'Malformed JSON payload in request body.',
+    })
+  }
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal server error.',
+  })
+})
+
 const PORT = process.env.PORT || 5000
 
 // Connect to Database and start Express HTTP server

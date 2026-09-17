@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { Supplier } from '../models/Supplier.js'
 
 /**
@@ -24,7 +25,6 @@ export const getSuppliers = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve suppliers.',
-      error: error.message,
     })
   }
 }
@@ -36,6 +36,13 @@ export const getSuppliers = async (req, res) => {
  */
 export const getSupplierById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Supplier ID format.',
+      })
+    }
+
     const supplier = await Supplier.findById(req.params.id)
 
     if (!supplier) {
@@ -51,16 +58,9 @@ export const getSupplierById = async (req, res) => {
     })
   } catch (error) {
     console.error(`[Controller Error - getSupplierById]: ${error.message}`)
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({
-        success: false,
-        message: 'Invalid Supplier ID format.',
-      })
-    }
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve supplier.',
-      error: error.message,
     })
   }
 }
@@ -82,9 +82,18 @@ export const createSupplier = async (req, res) => {
       })
     }
 
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    const trimmedEmail = contactEmail.trim().toLowerCase()
+    if (!emailRegex.test(trimmedEmail)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid contact email address.',
+      })
+    }
+
     const newSupplier = await Supplier.create({
       name: name.trim(),
-      contactEmail: contactEmail.trim().toLowerCase(),
+      contactEmail: trimmedEmail,
       phone: phone.trim(),
       address: address ? address.trim() : '',
     })
@@ -105,7 +114,6 @@ export const createSupplier = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to create supplier.',
-      error: error.message,
     })
   }
 }
@@ -117,9 +125,24 @@ export const createSupplier = async (req, res) => {
  */
 export const updateSupplier = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Supplier ID format.',
+      })
+    }
+
     const updateData = { ...req.body }
     if (updateData.contactEmail) {
-      updateData.contactEmail = updateData.contactEmail.trim().toLowerCase()
+      const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+      const trimmedEmail = updateData.contactEmail.trim().toLowerCase()
+      if (!emailRegex.test(trimmedEmail)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide a valid contact email address.',
+        })
+      }
+      updateData.contactEmail = trimmedEmail
     }
 
     const updatedSupplier = await Supplier.findByIdAndUpdate(
@@ -142,16 +165,15 @@ export const updateSupplier = async (req, res) => {
     })
   } catch (error) {
     console.error(`[Controller Error - updateSupplier]: ${error.message}`)
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
         success: false,
-        message: 'Invalid Supplier ID format.',
+        message: error.message,
       })
     }
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to update supplier.',
-      error: error.message,
     })
   }
 }
@@ -163,6 +185,13 @@ export const updateSupplier = async (req, res) => {
  */
 export const deleteSupplier = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Supplier ID format.',
+      })
+    }
+
     const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id)
 
     if (!deletedSupplier) {
@@ -179,16 +208,9 @@ export const deleteSupplier = async (req, res) => {
     })
   } catch (error) {
     console.error(`[Controller Error - deleteSupplier]: ${error.message}`)
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({
-        success: false,
-        message: 'Invalid Supplier ID format.',
-      })
-    }
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to delete supplier.',
-      error: error.message,
     })
   }
 }

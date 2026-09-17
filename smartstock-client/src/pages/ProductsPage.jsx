@@ -5,83 +5,156 @@ import InventorySummary from '../components/InventorySummary'
 import AddProductForm from '../components/AddProductForm'
 import SearchBar from '../components/SearchBar'
 import ProductList from '../components/ProductList'
-import { fetchProducts } from '../data/mockProducts'
+import {
+  getProducts,
+  createProduct,
+  deleteProduct,
+  adjustStock,
+} from '../api/productsApi'
 import './pages.css'
 
 /**
  * ProductsPage Component
  *
  * Route: "/products"
- * Contains the complete products catalog view, encapsulating Week 3 & 4 features:
- * - Async data fetching on mount with simulated loading & error handling
- * - Stock adjustment (+ / -), product creation, and deletion state updates
- * - Real-time statistics summary and name-based search filtering
- * - Document title synchronization side-effect
+ * Encapsulates the complete inventory management experience:
+ * - Real asynchronous data fetching via Axios from Express backend (/api/products)
+ * - Atomic stock adjustments via real StockLogs API (/api/stocklogs)
+ * - Real product creation and deletion with network error handling
+ * - Real-time statistics summary, search filter, and tab title synchronization
  */
 function ProductsPage() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [actionError, setActionError] = useState(null)
+  const [actionSuccess, setActionSuccess] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [shouldSimulateError, setShouldSimulateError] = useState(false)
+  const [mutatingSku, setMutatingSku] = useState(null)
 
-  // Reusable fetch function called by mount effect and Retry button
+  // Reusable fetch function calling live backend API
   const loadProducts = async (forceFail = shouldSimulateError) => {
     setIsLoading(true)
     setError(null)
     try {
-      const data = await fetchProducts(forceFail)
-      setProducts(data)
+      if (forceFail) {
+        throw new Error('Simulated network connection failure for error UX verification.')
+      }
+      const data = await getProducts()
+      setProducts(data || [])
     } catch (err) {
-      setError(err.message || 'Failed to fetch inventory from server.')
+      const msg = err.response?.data?.message || err.message || 'Failed to fetch inventory from server.'
+      setError(msg)
     } finally {
       setIsLoading(false)
     }
   }
 
-  // Mount-only lifecycle effect (equivalent to componentDidMount)
+  // Mount-only lifecycle effect
   useEffect(() => {
     loadProducts(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Side-effect synchronizing browser tab title with live product count
+  // Synchronize browser tab title with live product count
   useEffect(() => {
     const count = products.length
     document.title = `SmartStock Products (${count})`
   }, [products])
 
-  // Handlers for state updates (immutable updates)
-  const handleAddProduct = (newProduct) => {
-    setProducts((prev) => [...prev, newProduct])
+  // Clear temporary action alerts after 4 seconds
+  useEffect(() => {
+    if (actionSuccess || actionError) {
+      const timer = setTimeout(() => {
+        setActionSuccess(null)
+        setActionError(null)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [actionSuccess, actionError])
+
+  // Handler for adding a new product via real POST /api/products
+  const handleAddProduct = async (newProductData) => {
+    setActionError(null)
+    setActionSuccess(null)
+    try {
+      const createdProduct = await createProduct(newProductData)
+      setProducts((prev) => [createdProduct, ...prev])
+      setActionSuccess(`Product "${createdProduct.name}" created successfully!`)
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Failed to create product.'
+      setActionError(msg)
+      throw new Error(msg)
+    }
   }
 
-  const handleDeleteProduct = (sku) => {
-    setProducts((prev) => prev.filter((p) => p.sku !== sku))
+  // Handler for deleting a product via real DELETE /api/products/:sku
+  const handleDeleteProduct = async (sku) => {
+    setActionError(null)
+    setActionSuccess(null)
+    setMutatingSku(sku)
+    try {
+      await deleteProduct(sku)
+      setProducts((prev) => prev.filter((p) => p.sku !== sku))
+      setActionSuccess(`Product with SKU "${sku}" deleted successfully.`)
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Failed to delete product.'
+      setActionError(msg)
+    } finally {
+      setMutatingSku(null)
+    }
   }
 
-  const handleAdjustStock = (sku, amount) => {
-    setProducts((prev) =>
-      prev.map((product) => {
-        if (product.sku === sku) {
-          const newQty = Math.max(0, product.quantity + amount)
-          return { ...product, quantity: newQty }
-        }
-        return product
-      }),
-    )
+  // Handler for stock in / stock out adjustments via real POST /api/stocklogs
+  const handleAdjustStock = async (productInfo, type, amount = 1) => {
+    setActionError(null)
+    setActionSuccess(null)
+    setMutatingSku(productInfo.sku)
+
+    try {
+      if (!productInfo._id) {
+        throw new Error('Missing database product ID for stock log.')
+      }
+
+      const result = await adjustStock({
+        product: productInfo._id,
+        type,
+        quantity: amount,
+        note: `Manual stock adjustment from products catalog`,
+      })
+
+      // Update state with server-authoritative quantity
+      setProducts((prev) =>
+        prev.map((product) => {
+          if (product.sku === productInfo.sku) {
+            return { ...product, quantity: result.updatedProductQuantity }
+          }
+          return product
+        }),
+      )
+
+      setActionSuccess(
+        `Stock updated for ${productInfo.sku}: now ${result.updatedProductQuantity} units.`,
+      )
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Failed to adjust stock.'
+      setActionError(msg)
+    } finally {
+      setMutatingSku(null)
+    }
   }
 
-  // Derived statistics (calculated on render, no duplicate state)
+  // Derived statistics (calculated dynamically)
   const totalProducts = products.length
-  const totalUnits = products.reduce((sum, item) => sum + item.quantity, 0)
+  const totalUnits = products.reduce((sum, item) => sum + (item.quantity || 0), 0)
   const lowStockCount = products.filter(
     (item) => item.quantity <= (item.lowStockThreshold ?? 10),
   ).length
 
   // Derived filtered products based on search term
   const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase().trim()),
+    (product.name || '').toLowerCase().includes(searchTerm.toLowerCase().trim()),
   )
 
   return (
@@ -107,6 +180,19 @@ function ProductsPage() {
           {shouldSimulateError ? '✓ Error Simulation Active' : '🧪 Test Error State'}
         </button>
       </div>
+
+      {/* Global Action Alerts (Toast/Banner) */}
+      {actionSuccess && (
+        <div className="status-banner success-banner" role="status" style={{ backgroundColor: '#ecfdf5', borderColor: '#a7f3d0', color: '#065f46', marginBottom: '1.25rem', padding: '0.75rem 1rem', borderRadius: '0.5rem', border: '1px solid' }}>
+          ✓ {actionSuccess}
+        </div>
+      )}
+
+      {actionError && (
+        <div className="status-banner action-error-banner" role="alert" style={{ backgroundColor: '#fff1f2', borderColor: '#fecdd3', color: '#9f1239', marginBottom: '1.25rem', padding: '0.75rem 1rem', borderRadius: '0.5rem', border: '1px solid' }}>
+          ⚠️ {actionError}
+        </div>
+      )}
 
       <InventorySummary
         totalProducts={totalProducts}
@@ -145,6 +231,7 @@ function ProductsPage() {
           products={filteredProducts}
           onAdjustStock={handleAdjustStock}
           onDelete={handleDeleteProduct}
+          mutatingSku={mutatingSku}
         />
       )}
     </div>

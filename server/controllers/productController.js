@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { Product } from '../models/Product.js'
 
 /**
@@ -30,7 +31,6 @@ export const getProducts = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve products.',
-      error: error.message,
     })
   }
 }
@@ -61,7 +61,6 @@ export const getProductBySku = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve product.',
-      error: error.message,
     })
   }
 }
@@ -83,6 +82,41 @@ export const createProduct = async (req, res) => {
       })
     }
 
+    const numPrice = Number(price)
+    if (isNaN(numPrice) || numPrice < 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Price must be a non-negative number.',
+      })
+    }
+
+    const numQuantity = Number(quantity)
+    if (isNaN(numQuantity) || numQuantity < 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Quantity must be a non-negative number.',
+      })
+    }
+
+    let parsedThreshold = 5
+    if (lowStockThreshold !== undefined) {
+      const numThreshold = Number(lowStockThreshold)
+      if (isNaN(numThreshold) || numThreshold < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Low stock threshold must be a non-negative number.',
+        })
+      }
+      parsedThreshold = numThreshold
+    }
+
+    if (supplier && supplier !== '' && !mongoose.Types.ObjectId.isValid(supplier)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Supplier ID format.',
+      })
+    }
+
     const formattedSku = sku.trim().toUpperCase()
 
     // Pre-check for duplicate SKU to return a clean user message
@@ -99,10 +133,10 @@ export const createProduct = async (req, res) => {
       name: name.trim(),
       sku: formattedSku,
       category: category.trim(),
-      price: Number(price),
-      quantity: Number(quantity),
-      lowStockThreshold: lowStockThreshold !== undefined ? Number(lowStockThreshold) : 5,
-      supplier: supplier || null,
+      price: numPrice,
+      quantity: numQuantity,
+      lowStockThreshold: parsedThreshold,
+      supplier: supplier && supplier !== '' ? supplier : null,
     })
 
     const populatedProduct = await Product.findById(newProduct._id).populate('supplier')
@@ -134,7 +168,6 @@ export const createProduct = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to create product.',
-      error: error.message,
     })
   }
 }
@@ -148,10 +181,49 @@ export const updateProduct = async (req, res) => {
   try {
     const sku = (req.params.sku || '').toUpperCase()
 
-    // If updating SKU, ensure uppercase
     const updateData = { ...req.body }
     if (updateData.sku) {
       updateData.sku = updateData.sku.trim().toUpperCase()
+    }
+
+    if (updateData.price !== undefined) {
+      const numPrice = Number(updateData.price)
+      if (isNaN(numPrice) || numPrice < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Price must be a non-negative number.',
+        })
+      }
+      updateData.price = numPrice
+    }
+
+    if (updateData.quantity !== undefined) {
+      const numQuantity = Number(updateData.quantity)
+      if (isNaN(numQuantity) || numQuantity < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Quantity must be a non-negative number.',
+        })
+      }
+      updateData.quantity = numQuantity
+    }
+
+    if (updateData.lowStockThreshold !== undefined) {
+      const numThreshold = Number(updateData.lowStockThreshold)
+      if (isNaN(numThreshold) || numThreshold < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Low stock threshold must be a non-negative number.',
+        })
+      }
+      updateData.lowStockThreshold = numThreshold
+    }
+
+    if (updateData.supplier && updateData.supplier !== '' && !mongoose.Types.ObjectId.isValid(updateData.supplier)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Supplier ID format.',
+      })
     }
 
     const updatedProduct = await Product.findOneAndUpdate(
@@ -182,10 +254,16 @@ export const updateProduct = async (req, res) => {
       })
     }
 
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: error.message,
+      })
+    }
+
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to update product.',
-      error: error.message,
     })
   }
 }
@@ -217,7 +295,6 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to delete product.',
-      error: error.message,
     })
   }
 }

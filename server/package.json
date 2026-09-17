@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed:admin": "node scripts/seedAdmin.js"
+    "seed": "node scripts/seedDatabase.js",
+    "seed:admin": "node scripts/seedAdmin.js",
+    "test:api": "node scripts/runApiTests.js"
   },
   "keywords": [
     "smartstock",

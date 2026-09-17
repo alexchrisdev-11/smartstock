@@ -19,7 +19,7 @@ import './components.css'
  * Renders:
  * - A responsive CSS grid displaying a ProductCard for each item, or an empty state message if no products exist
  */
-function ProductList({ products, onAdjustStock, onDelete }) {
+function ProductList({ products, onAdjustStock, onDelete, mutatingSku = null }) {
   return (
     <section className="product-list-section" aria-labelledby="inventory-list-heading">
       <div className="product-list-header">
@@ -43,6 +43,7 @@ function ProductList({ products, onAdjustStock, onDelete }) {
           {products.map((product) => (
             <ProductCard
               key={product.sku}
+              _id={product._id}
               name={product.name}
               sku={product.sku}
               category={product.category}
@@ -51,6 +52,7 @@ function ProductList({ products, onAdjustStock, onDelete }) {
               lowStockThreshold={product.lowStockThreshold}
               onAdjustStock={onAdjustStock}
               onDelete={onDelete}
+              isMutating={mutatingSku === product.sku}
             />
           ))}
         </div>
@@ -62,6 +64,7 @@ function ProductList({ products, onAdjustStock, onDelete }) {
 ProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
+      _id: PropTypes.string,
       name: PropTypes.string.isRequired,
       sku: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
@@ -72,6 +75,7 @@ ProductList.propTypes = {
   ).isRequired,
   onAdjustStock: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  mutatingSku: PropTypes.string,
 }
 
 export default ProductList

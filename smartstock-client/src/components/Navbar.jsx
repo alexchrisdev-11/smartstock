@@ -51,6 +51,18 @@ function Navbar() {
               Products
             </NavLink>
           </li>
+          {isAuthenticated && (
+            <li>
+              <NavLink
+                to="/suppliers"
+                className={({ isActive }) =>
+                  isActive ? 'nav-link active-link' : 'nav-link'
+                }
+              >
+                Suppliers
+              </NavLink>
+            </li>
+          )}
 
           {/* Authentication Navigation Controls */}
           {isAuthenticated ? (

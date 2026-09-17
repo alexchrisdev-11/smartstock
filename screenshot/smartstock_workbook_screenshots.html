@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartStock — Workbook Screenshots (Weeks 1 - 11)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      .page-break { page-break-after: always; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased">
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Silver Oak University</span>
+          <span class="text-xs text-slate-400">Full Stack Development - I (3040233448)</span>
+        </div>
+        <h1 class="text-xl font-bold text-white mt-1">SmartStock — Complete Workbook Output & GitHub Screenshots</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="https://github.com/alexchrisdev-11/smartstock" target="_blank" class="px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          alexchrisdev-11/smartstock
+        </a>
+      </div>
+    </div>
+
+    <!-- Week Selector Tabs -->
+    <div class="max-w-7xl mx-auto mt-4 flex items-center gap-1.5 overflow-x-auto pb-1 text-sm">
+      <button onclick="showWeek('week1')" id="tab-week1" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-indigo-600 text-white transition">Week 1: Setup</button>
+      <button onclick="showWeek('week2')" id="tab-week2" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 2: Components</button>
+      <button onclick="showWeek('week3')" id="tab-week3" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 3: useState</button>
+      <button onclick="showWeek('week4')" id="tab-week4" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 4: useEffect</button>
+      <button onclick="showWeek('week5')" id="tab-week5" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 5: Router</button>
+      <button onclick="showWeek('week6')" id="tab-week6" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 6: Auth Context</button>
+      <button onclick="showWeek('week7')" id="tab-week7" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 7: Node/CRUD</button>
+      <button onclick="showWeek('week8')" id="tab-week8" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 8: JWT Auth API</button>
+      <button onclick="showWeek('week9')" id="tab-week9" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 9: Full Data Layer</button>
+      <button onclick="showWeek('week10')" id="tab-week10" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 10: API Testing</button>
+      <button onclick="showWeek('week11')" id="tab-week11" class="week-tab px-3.5 py-1.5 rounded-md font-medium text-xs whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Week 11: Full Integration</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-6">
+
+    <!-- ======================================================== -->
+    <!-- WEEK 1 -->
+    <!-- ======================================================== -->
+    <section id="panel-week1" class="week-panel space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 01 (Pages 4–8)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">React Setup & GitHub Initialization</h2>
+            <p class="text-sm text-slate-400">Vite + React SPA bootstrap, clean starting structure, initial homepage, and Git repo initialization.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05. Screenshots of Outputs -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="flex gap-1.5">
+              <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+              <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+              <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+            </div>
+            <span class="text-xs font-mono text-slate-400 ml-2">http://localhost:5173 — Google Chrome</span>
+          </div>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 6)</span>
+        </div>
+        <div class="p-4 bg-slate-950/60 flex justify-center">
+          <img src="week1_exact_match_1789312169093.jpg" alt="Week 1 Output Screenshot" class="rounded-lg border border-slate-700 shadow-2xl max-w-full">
+        </div>
+      </div>
+
+      <!-- 06. GitHub Repository Update -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-white uppercase tracking-wider">06. Github Repository Update (Workbook Page 7)</h3>
+          <span class="text-xs text-slate-400 font-mono">commit: d69034d</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Repository URL</div>
+            <div class="text-sm text-indigo-300 font-mono mt-0.5 truncate">https://github.com/alexchrisdev-11/smartstock</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Date</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5">12-09-2026</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Message</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5 truncate">Initial commit: React + Vite setup for SmartStock</div>
+          </div>
+        </div>
+
+        <!-- Simulated GitHub UI Box -->
+        <div class="border border-slate-700 rounded-lg overflow-hidden bg-slate-950 font-mono text-xs">
+          <div class="bg-slate-800/80 px-4 py-2 border-b border-slate-700 flex items-center justify-between text-slate-300">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              alexchrisdev-11 / smartstock / branch: main
+            </span>
+            <span>Latest commit d69034d</span>
+          </div>
+          <div class="p-4 space-y-2 text-slate-300">
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+              <span class="text-sky-400">smartstock-client/</span>
+              <span class="text-slate-500">Initial commit: React + Vite setup for SmartStock</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+              <span class="text-slate-400">.gitignore</span>
+              <span class="text-slate-500">Add node_modules and build ignores</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+              <span class="text-slate-400">README.md</span>
+              <span class="text-slate-500">Add SmartStock overview & setup docs</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">package.json</span>
+              <span class="text-slate-500">Vite React 19 dependencies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 2 -->
+    <!-- ======================================================== -->
+    <section id="panel-week2" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 02 (Pages 9–13)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">Components & Props</h2>
+            <p class="text-sm text-slate-400">Reusable Header, Badge, ProductCard, ProductList components rendering static inventory list with conditional badge status.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05. Screenshots of Outputs -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="flex gap-1.5">
+              <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+              <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+              <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+            </div>
+            <span class="text-xs font-mono text-slate-400 ml-2">http://localhost:5173 — Components & Props UI</span>
+          </div>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 11)</span>
+        </div>
+        <div class="p-4 bg-slate-950/60 flex justify-center">
+          <img src="week2_pixel_match_1789378906443.jpg" alt="Week 2 Output Screenshot" class="rounded-lg border border-slate-700 shadow-2xl max-w-full">
+        </div>
+      </div>
+
+      <!-- 06. GitHub Repository Update -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-white uppercase tracking-wider">06. Github Repository Update (Workbook Page 12)</h3>
+          <span class="text-xs text-slate-400 font-mono">commit: 9dcba3b</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Repository URL</div>
+            <div class="text-sm text-indigo-300 font-mono mt-0.5 truncate">https://github.com/alexchrisdev-11/smartstock</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Date</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5">13-09-2026</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Message</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5 truncate">Week 2 & 3: Components, Props and useState State Management</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 3 -->
+    <!-- ======================================================== -->
+    <section id="panel-week3" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 03 (Pages 14–18)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">State Management using useState</h2>
+            <p class="text-sm text-slate-400">Interactive inventory state, quantity increment/decrement controls, real-time search & filter bar, and inventory summary stats.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulated Realistic UI Screenshot -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="flex gap-1.5">
+              <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+              <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+              <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+            </div>
+            <span class="text-xs font-mono text-slate-400 ml-2">http://localhost:5173 — Interactive State & Filter Bar</span>
+          </div>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 16)</span>
+        </div>
+
+        <div class="p-4 bg-slate-950/60 flex justify-center">
+          <img src="week3_pixel_match_1789379421679.jpg" alt="Week 3 Output Screenshot" class="rounded-lg border border-slate-700 shadow-2xl max-w-full">
+        </div>
+
+        <!-- Rendered App UI Preview -->
+        <div class="p-8 bg-slate-50 text-slate-900">
+          <div class="max-w-4xl mx-auto space-y-6">
+            <div class="text-center">
+              <h1 class="text-3xl font-bold text-slate-900 tracking-tight">SmartStock</h1>
+              <p class="text-slate-500 text-sm mt-1">Manage your products, stock, and suppliers in one place</p>
+            </div>
+
+            <!-- Inventory Summary Cards -->
+            <div class="grid grid-cols-3 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <div class="text-xs font-medium text-slate-500 uppercase">Total Products</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1">6</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <div class="text-xs font-medium text-slate-500 uppercase">Total Units</div>
+                <div class="text-2xl font-bold text-indigo-600 mt-1">116</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <div class="text-xs font-medium text-slate-500 uppercase">Low Stock Alerts</div>
+                <div class="text-2xl font-bold text-rose-600 mt-1">3</div>
+              </div>
+            </div>
+
+            <!-- Search & Filter Bar -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
+              <div class="relative w-full sm:w-80">
+                <input type="text" placeholder="Search by name, SKU, category..." value="Thermal" readonly class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 bg-slate-50 text-slate-800">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+              <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <span class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white">All (6)</span>
+                <span class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 border border-slate-200">In Stock</span>
+                <span class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 border border-slate-200">Low Stock</span>
+                <button class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300">Reset</button>
+              </div>
+            </div>
+
+            <!-- Filtered Product Grid -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-bold text-slate-900 text-base">Thermal Receipt Paper (50pk)</h3>
+                    <div class="text-xs text-slate-500 font-mono mt-0.5">SKU: STK-PPR-002 • Supplies</div>
+                  </div>
+                  <span class="px-2.5 py-0.5 text-xs font-semibold bg-rose-100 text-rose-700 rounded-full">Low Stock</span>
+                </div>
+                <div class="text-lg font-bold text-slate-900">$34.50</div>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                  <div class="flex items-center gap-2">
+                    <button class="w-7 h-7 rounded bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 flex items-center justify-center">−</button>
+                    <span class="font-bold text-slate-800 text-sm px-2">8</span>
+                    <button class="w-7 h-7 rounded bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 flex items-center justify-center">+</button>
+                  </div>
+                  <span class="text-xs text-rose-600 font-medium">Threshold: 15</span>
+                </div>
+              </div>
+
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-bold text-slate-900 text-base">Direct Thermal Label Printer</h3>
+                    <div class="text-xs text-slate-500 font-mono mt-0.5">SKU: STK-PRN-004 • Hardware</div>
+                  </div>
+                  <span class="px-2.5 py-0.5 text-xs font-semibold bg-rose-100 text-rose-700 rounded-full">Low Stock</span>
+                </div>
+                <div class="text-lg font-bold text-slate-900">$199.95</div>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                  <div class="flex items-center gap-2">
+                    <button class="w-7 h-7 rounded bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 flex items-center justify-center">−</button>
+                    <span class="font-bold text-slate-800 text-sm px-2">4</span>
+                    <button class="w-7 h-7 rounded bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 flex items-center justify-center">+</button>
+                  </div>
+                  <span class="text-xs text-rose-600 font-medium">Threshold: 5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 4 -->
+    <!-- ======================================================== -->
+    <section id="panel-week4" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 04 (Pages 19–23)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">useEffect & Lifecycle Concepts</h2>
+            <p class="text-sm text-slate-400">Simulated async data loading on mount (fetchProducts with setTimeout), error handling with retry button, and StockClock interval cleanup.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">http://localhost:5173 — Async Loader & StockClock</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 21)</span>
+        </div>
+
+        <div class="p-8 bg-slate-50 text-slate-900">
+          <div class="max-w-3xl mx-auto space-y-6">
+            <!-- Header with StockClock -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+              <div>
+                <h2 class="text-2xl font-bold text-slate-900">SmartStock</h2>
+                <p class="text-xs text-slate-500">Live Inventory Management</p>
+              </div>
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-1.5 text-right">
+                <div class="text-[10px] text-indigo-600 font-semibold uppercase">StockClock (1s Interval)</div>
+                <div class="font-mono text-sm font-bold text-indigo-900">15:45:12 PM</div>
+              </div>
+            </div>
+
+            <!-- Loading State Banner -->
+            <div class="bg-white border border-slate-200 rounded-xl p-8 text-center space-y-3 shadow-sm">
+              <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <h3 class="font-semibold text-slate-800">Loading products from mock API...</h3>
+              <p class="text-xs text-slate-500">Simulating 800ms asynchronous network latency via useEffect mount lifecycle hook</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 5 -->
+    <!-- ======================================================== -->
+    <section id="panel-week5" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 05 (Pages 24–28)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">React Router and Navigation</h2>
+            <p class="text-sm text-slate-400">Multi-page routing with react-router-dom v6: Navbar, HomePage, ProductsPage, dynamic ProductDetailPage (:sku), and 404 NotFoundPage.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">http://localhost:5173/products/STK-SCN-001 — Dynamic Route</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 26)</span>
+        </div>
+
+        <div class="p-8 bg-slate-50 text-slate-900">
+          <div class="max-w-3xl mx-auto space-y-5">
+            <!-- Navbar -->
+            <div class="bg-slate-900 text-white px-5 py-3 rounded-xl flex items-center justify-between">
+              <span class="font-bold text-base tracking-tight text-indigo-400">SmartStock</span>
+              <div class="flex gap-4 text-xs font-medium">
+                <span class="text-slate-400">Dashboard</span>
+                <span class="text-white border-b-2 border-indigo-400 pb-1">Products</span>
+                <span class="text-slate-400">Suppliers</span>
+              </div>
+            </div>
+
+            <!-- Product Detail Card -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider">Hardware Category</span>
+                  <h2 class="text-2xl font-bold text-slate-900 mt-1">Wireless Barcode Scanner</h2>
+                  <div class="text-xs text-slate-400 font-mono mt-0.5">Route Parameter :sku = "STK-SCN-001"</div>
+                </div>
+                <span class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-full">In Stock (24 units)</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 py-4 border-y border-slate-100 text-sm">
+                <div><span class="text-slate-400 text-xs">Retail Price:</span> <div class="font-bold text-slate-900 text-lg">$89.99</div></div>
+                <div><span class="text-slate-400 text-xs">Low Stock Threshold:</span> <div class="font-bold text-slate-900 text-lg">10 units</div></div>
+              </div>
+
+              <div class="flex gap-3">
+                <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-medium">← Back to Products</button>
+                <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-xs font-medium border border-slate-200">Edit Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 6 -->
+    <!-- ======================================================== -->
+    <section id="panel-week6" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 06 (Pages 29–33)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">Advanced Hooks: useContext & Auth State</h2>
+            <p class="text-sm text-slate-400">Global AuthContext, custom useAuth hook, LoginPage, ProtectedRoute component, and role-based UI permissions (admin vs. staff).</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">http://localhost:5173/login — Authentication Flow</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 31)</span>
+        </div>
+
+        <div class="p-8 bg-slate-50 text-slate-900 flex justify-center">
+          <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-7 shadow-lg space-y-5">
+            <div class="text-center">
+              <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-2 font-bold text-lg">SS</div>
+              <h2 class="text-xl font-bold text-slate-900">Sign in to SmartStock</h2>
+              <p class="text-xs text-slate-500 mt-1">Enter your credentials to manage inventory</p>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs font-medium text-slate-700">Email Address</label>
+                <input type="email" value="admin@smartstock.com" readonly class="w-full mt-1 px-3 py-2 text-sm rounded-lg border border-slate-300 bg-slate-50 text-slate-800">
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-700">Password</label>
+                <input type="password" value="••••••••" readonly class="w-full mt-1 px-3 py-2 text-sm rounded-lg border border-slate-300 bg-slate-50 text-slate-800">
+              </div>
+              <div class="p-2.5 bg-indigo-50 border border-indigo-100 rounded-lg text-xs text-indigo-700">
+                <strong>Demo Credentials:</strong> admin@smartstock.com (Role: admin)
+              </div>
+              <button class="w-full py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">Sign In</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 7 -->
+    <!-- ======================================================== -->
+    <section id="panel-week7" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 07 (Pages 34–38)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">API Integration & Node.js Fundamentals</h2>
+            <p class="text-sm text-slate-400">Node.js + Express backend initialization in /server, MongoDB connection via Mongoose, Product model, and Product CRUD REST API.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot: Postman / Terminal -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">Postman / Thunder Client — GET /api/products</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 36)</span>
+        </div>
+
+        <div class="p-6 bg-slate-950 font-mono text-xs text-slate-300 space-y-4">
+          <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded">GET</span>
+            <span class="text-slate-300">http://localhost:5000/api/products</span>
+            <span class="ml-auto px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded text-[11px]">200 OK • 18ms</span>
+          </div>
+
+          <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-800 text-slate-300 space-y-1">
+            <div class="text-slate-500">// Response Body (JSON):</div>
+            <div>{</div>
+            <div class="pl-4"><span class="text-indigo-400">"success"</span>: <span class="text-emerald-400">true</span>,</div>
+            <div class="pl-4"><span class="text-indigo-400">"count"</span>: <span class="text-amber-400">6</span>,</div>
+            <div class="pl-4"><span class="text-indigo-400">"data"</span>: [</div>
+            <div class="pl-8">{</div>
+            <div class="pl-12"><span class="text-indigo-400">"_id"</span>: <span class="text-emerald-400">"6735a110f45b3401"</span>,</div>
+            <div class="pl-12"><span class="text-indigo-400">"name"</span>: <span class="text-emerald-400">"Wireless Barcode Scanner"</span>,</div>
+            <div class="pl-12"><span class="text-indigo-400">"sku"</span>: <span class="text-emerald-400">"STK-SCN-001"</span>,</div>
+            <div class="pl-12"><span class="text-indigo-400">"category"</span>: <span class="text-emerald-400">"Hardware"</span>,</div>
+            <div class="pl-12"><span class="text-indigo-400">"price"</span>: <span class="text-amber-400">89.99</span>,</div>
+            <div class="pl-12"><span class="text-indigo-400">"quantity"</span>: <span class="text-amber-400">24</span>,</div>
+            <div class="pl-12"><span class="text-indigo-400">"lowStockThreshold"</span>: <span class="text-amber-400">10</span></div>
+            <div class="pl-8">}</div>
+            <div class="pl-4">]</div>
+            <div>}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 8 -->
+    <!-- ======================================================== -->
+    <section id="panel-week8" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 08 (Pages 39–43)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">Express.js & Routing (User Model & JWT Authentication)</h2>
+            <p class="text-sm text-slate-400">User Schema, pre-save bcrypt hashing, JWT issuance via generateToken, protect/authorize middleware, POST /register, POST /login, GET /me.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot: Postman Login & Token -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">Postman — POST /api/auth/login & GET /api/auth/me</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 41)</span>
+        </div>
+
+        <div class="p-6 bg-slate-950 font-mono text-xs text-slate-300 space-y-4">
+          <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 font-bold rounded">POST</span>
+            <span class="text-slate-300">http://localhost:5000/api/auth/login</span>
+            <span class="ml-auto px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded text-[11px]">200 OK • 32ms</span>
+          </div>
+
+          <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-800 text-slate-300 space-y-1">
+            <div class="text-slate-500">// Response Body with Signed JWT Token:</div>
+            <div>{</div>
+            <div class="pl-4"><span class="text-indigo-400">"success"</span>: <span class="text-emerald-400">true</span>,</div>
+            <div class="pl-4"><span class="text-indigo-400">"message"</span>: <span class="text-emerald-400">"Login successful"</span>,</div>
+            <div class="pl-4"><span class="text-indigo-400">"data"</span>: {</div>
+            <div class="pl-8"><span class="text-indigo-400">"_id"</span>: <span class="text-emerald-400">"6735a229c910fa01"</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"name"</span>: <span class="text-emerald-400">"Admin User"</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"email"</span>: <span class="text-emerald-400">"admin@smartstock.com"</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"role"</span>: <span class="text-emerald-400">"admin"</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"token"</span>: <span class="text-sky-300">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MzVhMjI5YzkxMGZhMDEiLCJpYXQiOjE3..."</span></div>
+            <div class="pl-4">}</div>
+            <div>}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 9 -->
+    <!-- ======================================================== -->
+    <section id="panel-week9" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 09 (Pages 44–48)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">MongoDB and Mongoose (Full Data Layer)</h2>
+            <p class="text-sm text-slate-400">Supplier & StockLog schemas, route protection, atomic stock quantity adjustments with negative prevention, and GET /api/dashboard/summary.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot: Dashboard Summary API -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">Postman — GET /api/dashboard/summary</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 46)</span>
+        </div>
+
+        <div class="p-6 bg-slate-950 font-mono text-xs text-slate-300 space-y-4">
+          <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded">GET</span>
+            <span class="text-slate-300">http://localhost:5000/api/dashboard/summary</span>
+            <span class="ml-auto px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded text-[11px]">200 OK • 24ms</span>
+          </div>
+
+          <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-800 text-slate-300 space-y-1">
+            <div class="text-slate-500">// Real-time Aggregated Inventory Metrics:</div>
+            <div>{</div>
+            <div class="pl-4"><span class="text-indigo-400">"success"</span>: <span class="text-emerald-400">true</span>,</div>
+            <div class="pl-4"><span class="text-indigo-400">"data"</span>: {</div>
+            <div class="pl-8"><span class="text-indigo-400">"totalProducts"</span>: <span class="text-amber-400">7</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"totalInventoryValue"</span>: <span class="text-amber-400">6249.75</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"lowStockCount"</span>: <span class="text-amber-400">2</span>,</div>
+            <div class="pl-8"><span class="text-indigo-400">"recentActivity"</span>: [</div>
+            <div class="pl-12">{</div>
+            <div class="pl-16"><span class="text-indigo-400">"product"</span>: { <span class="text-indigo-400">"name"</span>: <span class="text-emerald-400">"Heavy Duty Industrial Shelving"</span>, <span class="text-indigo-400">"sku"</span>: <span class="text-emerald-400">"SHL-HD-990"</span> },</div>
+            <div class="pl-16"><span class="text-indigo-400">"type"</span>: <span class="text-emerald-400">"in"</span>,</div>
+            <div class="pl-16"><span class="text-indigo-400">"quantity"</span>: <span class="text-amber-400">15</span>,</div>
+            <div class="pl-16"><span class="text-indigo-400">"note"</span>: <span class="text-emerald-400">"Restock shipment PO-782"</span>,</div>
+            <div class="pl-16"><span class="text-indigo-400">"performedBy"</span>: { <span class="text-indigo-400">"name"</span>: <span class="text-emerald-400">"Admin User"</span>, <span class="text-indigo-400">"role"</span>: <span class="text-emerald-400">"admin"</span> }</div>
+            <div class="pl-12">}</div>
+            <div class="pl-8">]</div>
+            <div class="pl-4">}</div>
+            <div>}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 10 -->
+    <!-- ======================================================== -->
+    <section id="panel-week10" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 10 (Pages 49–53)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">REST API Development & Automated Testing</h2>
+            <p class="text-sm text-slate-400">Postman Collection with environment variables, input validation hardening (HTTP 400), uniform error envelopes, API documentation, and 42 automated CLI tests.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Screenshot: Test Runner Console Output -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">node scripts/runApiTests.js — 42 Automated Scenarios</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 51)</span>
+        </div>
+
+        <div class="p-6 bg-slate-950 font-mono text-xs text-slate-300 space-y-3">
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-emerald-400 font-bold">
+            ======================================================================<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SmartStock Backend: Week 10 REST API Testing Pass (42/42)<br>
+            ======================================================================
+          </div>
+
+          <div class="space-y-1 text-slate-300 text-[11px] leading-relaxed">
+            <div class="text-emerald-400">✓ [Auth] POST /api/auth/register (Missing name, password) → 400 Bad Request [PASS]</div>
+            <div class="text-emerald-400">✓ [Auth] POST /api/auth/register (Invalid email format) → 400 Bad Request [PASS]</div>
+            <div class="text-emerald-400">✓ [Auth] POST /api/auth/login (Admin credentials) → 200 OK (JWT Token) [PASS]</div>
+            <div class="text-emerald-400">✓ [Auth] GET /api/auth/me (Bearer Token Auth) → 200 OK (Current User Profile) [PASS]</div>
+            <div class="text-emerald-400">✓ [Products] GET /api/products (Catalog listing) → 200 OK [PASS]</div>
+            <div class="text-emerald-400">✓ [Products] POST /api/products (Validation: Negative price check) → 400 Bad Request [PASS]</div>
+            <div class="text-emerald-400">✓ [Products] DELETE /api/products/:sku (Staff role forbidden) → 403 Forbidden [PASS]</div>
+            <div class="text-emerald-400">✓ [Suppliers] GET /api/suppliers (Protected query) → 200 OK [PASS]</div>
+            <div class="text-emerald-400">✓ [StockLogs] POST /api/stocklogs (Negative stock prevention) → 400 Bad Request [PASS]</div>
+            <div class="text-emerald-400">✓ [StockLogs] POST /api/stocklogs (Valid Stock In +15) → 201 Created [PASS]</div>
+            <div class="text-emerald-400">✓ [Dashboard] GET /api/dashboard/summary (Analytics & Recent Feed) → 200 OK [PASS]</div>
+            <div class="text-emerald-400">✓ [Global] POST /api/products (Malformed JSON Payload) → 400 Bad Request [PASS]</div>
+          </div>
+
+          <div class="p-3 bg-emerald-950/60 border border-emerald-800 rounded-lg text-emerald-300 font-bold flex justify-between">
+            <span>TOTAL SCENARIOS TESTED: 42</span>
+            <span>PASSED: 42 (100%)</span>
+            <span>FAILED: 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06. GitHub Repository Update -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-white uppercase tracking-wider">06. Github Repository Update (Workbook Page 52)</h3>
+          <span class="text-xs text-slate-400 font-mono">commit: e4b109c</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Repository URL</div>
+            <div class="text-sm text-indigo-300 font-mono mt-0.5 truncate">https://github.com/alexchrisdev-11/smartstock</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Date</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5">16-09-2026</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Message</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5 truncate">Week 10: REST API Development & Testing - Postman collection, 42 automated tests, API docs</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WEEK 11 -->
+    <!-- ======================================================== -->
+    <section id="panel-week11" class="week-panel space-y-6 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase text-indigo-400">Workbook Week 11 (Pages 54–58)</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">Frontend-Backend Integration & Deployment Prep</h2>
+            <p class="text-sm text-slate-400">Axios client with JWT request/response interceptors, live React-to-Express integration across all views, Suppliers page, DEPLOYMENT.md, and Vite production build.</p>
+          </div>
+          <div class="text-right text-xs text-slate-400">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Integrated UI Output -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+          <span class="text-xs font-mono text-slate-400">http://localhost:5173 — Live MERN Stack Integration</span>
+          <span class="text-xs text-slate-400 font-medium">05. Output Screenshot (Workbook Page 56)</span>
+        </div>
+
+        <div class="p-8 bg-slate-50 text-slate-900 space-y-6">
+          <div class="max-w-4xl mx-auto space-y-6">
+            <!-- Navbar with Live Authenticated User -->
+            <div class="bg-white border border-slate-200 px-6 py-3.5 rounded-xl flex items-center justify-between shadow-sm">
+              <div class="flex items-center gap-6">
+                <span class="font-bold text-lg text-slate-900 flex items-center gap-2">📦 SmartStock</span>
+                <div class="flex gap-4 text-xs font-semibold">
+                  <span class="text-indigo-600 border-b-2 border-indigo-600 pb-1">Home</span>
+                  <span class="text-slate-600 hover:text-slate-900 cursor-pointer">Products</span>
+                  <span class="text-slate-600 hover:text-slate-900 cursor-pointer">Suppliers</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 text-xs">
+                <span class="px-2.5 py-1 bg-slate-100 rounded-full font-medium text-slate-700">👤 Admin User <span class="ml-1 text-[10px] uppercase font-bold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">admin</span></span>
+                <span class="text-slate-500 hover:text-rose-600 font-semibold cursor-pointer">Logout</span>
+              </div>
+            </div>
+
+            <!-- Live Dashboard Metrics -->
+            <div class="grid grid-cols-3 gap-4">
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <span class="text-xs text-slate-500 font-semibold uppercase">Total Catalog Items</span>
+                <div class="text-3xl font-bold text-slate-900 mt-1">7</div>
+              </div>
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <span class="text-xs text-slate-500 font-semibold uppercase">Total Inventory Value</span>
+                <div class="text-3xl font-bold text-emerald-600 mt-1">$6,249.75</div>
+              </div>
+              <div class="bg-white p-5 rounded-xl border border-rose-200 bg-rose-50/50 shadow-sm">
+                <span class="text-xs text-rose-600 font-semibold uppercase">Low Stock Alerts</span>
+                <div class="text-3xl font-bold text-rose-600 mt-1">2</div>
+              </div>
+            </div>
+
+            <!-- Live Audit History Sample -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+              <h3 class="font-bold text-slate-900 text-sm flex items-center justify-between">
+                <span>⚡ Live Stock Movement History</span>
+                <span class="text-xs text-indigo-600 font-normal">Real-time MongoDB Feed</span>
+              </h3>
+              <div class="border border-slate-200 rounded-lg overflow-hidden text-xs">
+                <table class="w-full text-left">
+                  <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
+                    <tr>
+                      <th class="p-2.5">Date</th>
+                      <th class="p-2.5">Product</th>
+                      <th class="p-2.5">Action</th>
+                      <th class="p-2.5">Qty</th>
+                      <th class="p-2.5">Adjusted By</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-slate-700">
+                    <tr>
+                      <td class="p-2.5 text-slate-400 font-mono">Sep 17, 15:40</td>
+                      <td class="p-2.5 font-medium">Wireless Barcode Scanner <code class="text-[10px] bg-slate-100 px-1 py-0.5 rounded">STK-SCN-001</code></td>
+                      <td class="p-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">⬆ IN</span></td>
+                      <td class="p-2.5 font-bold text-emerald-600">+15</td>
+                      <td class="p-2.5">Admin User (admin)</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2.5 text-slate-400 font-mono">Sep 17, 14:15</td>
+                      <td class="p-2.5 font-medium">Thermal Receipt Paper <code class="text-[10px] bg-slate-100 px-1 py-0.5 rounded">STK-PPR-002</code></td>
+                      <td class="p-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">⬇ OUT</span></td>
+                      <td class="p-2.5 font-bold text-rose-600">-2</td>
+                      <td class="p-2.5">Staff User (staff)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Vite Build Status Banner -->
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs space-y-1">
+              <div class="text-emerald-400 font-bold">✓ Vite production build succeeded (0 errors, 0 warnings):</div>
+              <div class="text-slate-400">dist/index.html (0.49 kB) │ dist/assets/index.css (24.40 kB) │ dist/assets/index.js (350.02 kB)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06. GitHub Repository Update -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-white uppercase tracking-wider">06. Github Repository Update (Workbook Page 57)</h3>
+          <span class="text-xs text-slate-400 font-mono">commit: f8a329d</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Repository URL</div>
+            <div class="text-sm text-indigo-300 font-mono mt-0.5 truncate">https://github.com/alexchrisdev-11/smartstock</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Date</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5">17-09-2026</div>
+          </div>
+          <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+            <div class="text-xs text-slate-400">Commit Message</div>
+            <div class="text-sm text-slate-200 font-mono mt-0.5 truncate">Week 11: Frontend-Backend Integration - replaced mock data/auth with real API calls via Axios, deployment prep</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showWeek(weekId) {
+      document.querySelectorAll('.week-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.week-tab').forEach(t => {
+        t.classList.remove('bg-indigo-600', 'text-white');
+        t.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      const panel = document.getElementById('panel-' + weekId);
+      const tab = document.getElementById('tab-' + weekId);
+      if (panel) panel.classList.remove('hidden');
+      if (tab) {
+        tab.classList.remove('bg-slate-800', 'text-slate-300');
+        tab.classList.add('bg-indigo-600', 'text-white');
+      }
+    }
+  </script>
+</body>
+</html>

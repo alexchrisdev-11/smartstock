@@ -33,6 +33,21 @@ export const registerUser = async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase()
 
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    if (!emailRegex.test(normalizedEmail)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid email address.',
+      })
+    }
+
+    if (role && !['admin', 'staff'].includes(role.toLowerCase())) {
+      return res.status(400).json({
+        success: false,
+        message: 'Role must be either "admin" or "staff".',
+      })
+    }
+
     // 2. Duplicate Check: Prevent multiple accounts with the same email
     const userExists = await User.findOne({ email: normalizedEmail })
     if (userExists) {
@@ -47,7 +62,7 @@ export const registerUser = async (req, res) => {
       name: name.trim(),
       email: normalizedEmail,
       password,
-      role: role && ['admin', 'staff'].includes(role.toLowerCase()) ? role.toLowerCase() : 'staff',
+      role: role ? role.toLowerCase() : 'staff',
     })
 
     // 4. Issue JWT and respond
@@ -75,7 +90,6 @@ export const registerUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to register user.',
-      error: error.message,
     })
   }
 }
@@ -135,7 +149,6 @@ export const loginUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to process login.',
-      error: error.message,
     })
   }
 }
@@ -157,7 +170,6 @@ export const getMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error: Unable to retrieve user profile.',
-      error: error.message,
     })
   }
 }
