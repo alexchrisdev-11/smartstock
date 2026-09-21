@@ -36,8 +36,8 @@ export async function initMockStore() {
   const supApexId = new mongoose.Types.ObjectId()
   const supGlobalId = new mongoose.Types.ObjectId()
 
-  const adminHash = await bcrypt.hash('Password123', 10)
-  const staffHash = await bcrypt.hash('Password123', 10)
+  const adminHash = await bcrypt.hash('admin123', 10)
+  const staffHash = await bcrypt.hash('staff123', 10)
 
   const users = [
     {
@@ -48,7 +48,7 @@ export async function initMockStore() {
       role: 'admin',
       createdAt: new Date('2026-07-01T08:00:00Z'),
       async comparePassword(pwd) {
-        if (pwd === 'admin123' || pwd === 'staff123' || pwd === 'Password123') return true
+        if (pwd === 'admin123') return true
         return bcrypt.compare(pwd, this.password)
       },
       save() { return Promise.resolve(this) }
@@ -61,7 +61,7 @@ export async function initMockStore() {
       role: 'staff',
       createdAt: new Date('2026-07-01T08:00:00Z'),
       async comparePassword(pwd) {
-        if (pwd === 'admin123' || pwd === 'staff123' || pwd === 'Password123') return true
+        if (pwd === 'staff123') return true
         return bcrypt.compare(pwd, this.password)
       },
       save() { return Promise.resolve(this) }

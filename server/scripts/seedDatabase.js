@@ -40,18 +40,18 @@ const seedDatabase = async () => {
     console.log('[Seeder] Collections purged successfully.')
 
     // 2. Seed Users
-    console.log('[Seeder] Creating authenticated demo users...')
+    console.log('[Seeder] Creating authenticated users...')
     const adminUser = await User.create({
       name: 'Admin User',
       email: 'admin@smartstock.com',
-      password: 'Password123',
+      password: 'admin123',
       role: 'admin',
     })
 
     const staffUser = await User.create({
       name: 'Staff User',
       email: 'staff@smartstock.com',
-      password: 'Password123',
+      password: 'staff123',
       role: 'staff',
     })
     console.log(`✓ Admin User created: ${adminUser.email} (Role: admin)`)
@@ -200,11 +200,11 @@ const seedDatabase = async () => {
     console.log(`✓ Seeded ${stockLogsData.length} stock movement audit entries.`)
 
     console.log('====================================================')
-    console.log('     TURNKEY SEEDING COMPLETE — READY FOR DEMO!     ')
+    console.log('     TURNKEY SEEDING COMPLETE — READY FOR USE!      ')
     console.log('====================================================')
-    console.log('Demo Credentials:')
-    console.log('  Admin: admin@smartstock.com / Password123')
-    console.log('  Staff: staff@smartstock.com / Password123')
+    console.log('Admin Account:')
+    console.log('  Email:    admin@smartstock.com')
+    console.log('  Password: admin123')
     console.log('====================================================')
 
     await mongoose.connection.close()

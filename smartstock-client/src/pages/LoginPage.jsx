@@ -49,13 +49,6 @@ function LoginPage() {
     }
   }
 
-  // Quick fill helper for testing/evaluating
-  const fillCredentials = (demoEmail, demoPassword) => {
-    setEmail(demoEmail)
-    setPassword(demoPassword)
-    setErrorMessage('')
-  }
-
   return (
     <div className="page-container login-page">
       <div className="login-card">
@@ -107,32 +100,6 @@ function LoginPage() {
             {isSubmitting ? 'Authenticating...' : 'Sign In →'}
           </button>
         </form>
-
-        {/* Mock Credentials Helper for testing */}
-        <div className="demo-credentials-box">
-          <h3>Demo Accounts (Click to Quick-Fill):</h3>
-          <div className="demo-accounts-grid">
-            <button
-              type="button"
-              className="demo-account-btn"
-              onClick={() => fillCredentials('admin@smartstock.com', 'admin123')}
-            >
-              <strong>Admin Account</strong>
-              <span>admin@smartstock.com / admin123</span>
-              <small>Full access (can delete products)</small>
-            </button>
-
-            <button
-              type="button"
-              className="demo-account-btn"
-              onClick={() => fillCredentials('staff@smartstock.com', 'staff123')}
-            >
-              <strong>Staff Account</strong>
-              <span>staff@smartstock.com / staff123</span>
-              <small>Standard access (cannot delete)</small>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   )
